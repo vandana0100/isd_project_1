@@ -12,4 +12,3 @@ Assignment 1: Classes, Encapsulation and Unit Test Planning
 The assignment focuses on creating classes that protect their data using encapsulation. We'll also plan and write tests to make sure your classes and methods work correctly.
 
 ## Encapsulation
-[use this section to explain how Encapsulation was achieved in the BankAccount and Transaction classes.]
