@@ -12,3 +12,4 @@ Assignment 1: Classes, Encapsulation and Unit Test Planning
 The assignment focuses on creating classes that protect their data using encapsulation. We'll also plan and write tests to make sure your classes and methods work correctly.
 
 ## Encapsulation
+In the BankAccount and Transaction classes, encapsulation was used by keeping important details like the account balance and transaction amount private. This means other parts of the program can’t change them directly and can only access or update them through special methods, making the data more secure.
