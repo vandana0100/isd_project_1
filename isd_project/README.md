@@ -13,3 +13,7 @@ The assignment focuses on creating classes that protect their data using encapsu
 
 ## Encapsulation
 In the BankAccount and Transaction classes, encapsulation was used by keeping important details like the account balance and transaction amount private. This means other parts of the program can’t change them directly and can only access or update them through special methods, making the data more secure.
+
+## Assignment 2:
+Assignment 2: Abstraction, Inheritance and Polymorphism.
+In this assignment, I will extend the previous bank account project by creating separate classes for Chequing, Investment, and Savings accounts. I will also write corresponding unit tests for each account type.
