@@ -9,7 +9,7 @@ the following command:
 """
 
 import unittest
-from bank_account import BankAccount 
+from bank_account.bank_account import BankAccount
 
 class TestBankAccount(unittest.TestCase):
 

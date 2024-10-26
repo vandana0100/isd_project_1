@@ -25,3 +25,6 @@ ChequingAccount: Charges based on overdraft.
 SavingsAccount: Charges if the balance falls below a minimum.
 InvestmentAccount: Charges based on how long the account has been open.
 This allows the program to treat all accounts the same way while letting each account handle its specific rules for service charges.
+
+Assignment 3: Applying Design Patterns - Implemented Strategy and Observer patterns to improve scalability and notification features in the banking system.
+

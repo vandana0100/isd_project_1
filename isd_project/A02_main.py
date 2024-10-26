@@ -11,6 +11,7 @@ Date: 06-10-2024
 from bank_account.bank_account import ChequingAccount, InvestmentAccount, SavingsAccount
 from datetime import date
 
+
 # 2. Create an instance of a ChequingAccount with values of your 
 # choice including a balance which is below the overdraft limit.
 try:
@@ -146,6 +147,7 @@ except Exception as e:
 
 print("===================================================")
 
+
 # 12. Update the balance of each account created in steps 2, 5, 8 and 10 
 # by using the withdraw method of the superclass and withdrawing 
 # the service charges determined by each instance invoking the 
@@ -157,6 +159,7 @@ try:
     investment_account_old.withdraw(investment_account_old.get_service_charges())
 except Exception as e:
     print(f"Error updating balances by withdrawing service charges: {e}")
+    
 
 # 13. Print each of the bank account objects created in steps 2, 5, 8 and 10.
 try:
