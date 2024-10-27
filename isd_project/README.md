@@ -28,3 +28,6 @@ This allows the program to treat all accounts the same way while letting each ac
 
 Assignment 3: Applying Design Patterns - Implemented Strategy and Observer patterns to improve scalability and notification features in the banking system.
 
+PART:1
+Strategy Pattern:
+The Strategy Pattern is employed in this application to encapsulate the algorithms used for calculating service charges for various bank account types. Each account type—ChequingAccount, SavingsAccount, and InvestmentAccount—has its own strategy for charge calculation. This design allows for flexibility and ease of maintenance, as new account types can be added with their own strategies without modifying existing code. The pattern enhances separation of concerns, enabling each strategy to handle its calculation logic independently, leading to cleaner and more manageable code.
