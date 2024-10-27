@@ -4,26 +4,16 @@ Author: Vandana Bhangu
 """
 
 from abc import ABC, abstractmethod
+from bank_account import BankAccount
 
 class ServiceChargeStrategy(ABC):
-    """
-    Abstract base class for service charge strategies. Provides a blueprint
-    for calculating service charges based on different strategies.
-    """
-
-    # Constants (can be moved from the BankAccount class if needed)
-    MINIMUM_BALANCE = 1000.0
-    LOW_BALANCE_FEE = 25.0
+    BASE_SERVICE_CHARGE: float = 0.50
 
     @abstractmethod
-    def calculate_service_charges(self, balance: float) -> float:
+    def calculate_service_charges(self, account: BankAccount) -> float:
         """
-        Abstract method to calculate service charges.
-
-        Parameters:
-        balance (float): The current balance of the account.
-
-        Returns:
-        float: The calculated service charge.
+        Abstract method for calculating service charges.
+        :param account: BankAccount object
+        :return: Calculated service charge as a float
         """
         pass

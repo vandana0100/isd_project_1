@@ -10,6 +10,7 @@ the following command:
 import unittest
 from bank_account.savings_account import SavingsAccount
 from datetime import date
+from patterns.strategy.minimum_balance_strategy import MinimumBalanceStrategy
 
 class TestSavingsAccount(unittest.TestCase):
 
@@ -29,6 +30,9 @@ class TestSavingsAccount(unittest.TestCase):
         self.assertEqual(self.account.client_number, 123456)
         self.assertEqual(round(self.account.balance, 2), 1000.0)
         self.assertEqual(self.account._minimum_balance, 50.0)
+        self.assertEqual(self.account._minimum_balance, 50.0)
+        self.assertIsInstance(self.account._minimum_balance_strategy, MinimumBalanceStrategy)
+
 
     def test_init_invalid_minimum_balance(self):
         # Test to check minimum_balance is set to default when invalid type is provided
@@ -54,6 +58,7 @@ class TestSavingsAccount(unittest.TestCase):
         # Test __str__ method for correct string representation
         expected_str = (f"Account Number: {self.account.account_number} Balance: ${self.account.balance:.2f}\n"
                 f"Minimum Balance: {self.account._minimum_balance:.2f} Account Type: Savings")
+        
 
 if __name__ == '__main__':
     unittest.main()

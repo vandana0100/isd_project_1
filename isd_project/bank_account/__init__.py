@@ -1,2 +1,5 @@
 from bank_account import *
-
+from bank_account.bank_account import BankAccount
+from .chequing_account import ChequingAccount
+from .investment_account import InvestmentAccount
+from .savings_account import SavingsAccount

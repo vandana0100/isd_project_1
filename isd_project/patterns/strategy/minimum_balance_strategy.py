@@ -1,41 +1,23 @@
 """
-Description: Contains the MinimumBalanceStrategy class for calculating service charges based on minimum balance requirements for savings accounts.
+Description: Strategy for calculating charges based on minimum balance requirements.
 Author: Vandana Bhangu
 """
 
+from bank_account import BankAccount
 from patterns.strategy.service_charge_strategy import ServiceChargeStrategy
+from bank_account.bank_account import BankAccount
+
 
 class MinimumBalanceStrategy(ServiceChargeStrategy):
-    """
-    Strategy class for calculating service charges based on minimum balance requirements 
-    for savings accounts.
-    """
-    
-    def __init__(self, minimum_balance: float, service_charge: float):
-        """
-        Initializes the MinimumBalanceStrategy with the required minimum balance and service charge.
-        
-        Parameters:
-        minimum_balance (float): The minimum balance that must be maintained in the savings account.
-        service_charge (float): The service charge applied if the balance falls below the minimum.
-        """
-        self._minimum_balance = minimum_balance
-        self._service_charge = service_charge
+    SERVICE_CHARGE_PREMIUM: float = 2.0
 
-    def calculate_service_charges(self, current_balance: float) -> float:
-        """
-        Calculates the service charges based on the current balance.
-        
-        Parameters:
-        current_balance (float): The current balance of the savings account.
-        
-        Returns:
-        float: The service charge if the balance is below the minimum; otherwise, returns 0.
-        
-        Logic:
-        - If the current balance is less than the minimum balance, return the service charge.
-        - Otherwise, return 0.
-        """
-        if current_balance < self._minimum_balance:
-            return self._service_charge
-        return 0.0
+    def __init__(self, minimum_balance: float):
+        self.minimum_balance = minimum_balance
+
+    def calculate_service_charges(self, account: BankAccount) -> float:
+        if account.balance < self.minimum_balance:
+            return ServiceChargeStrategy.BASE_SERVICE_CHARGE * MinimumBalanceStrategy.SERVICE_CHARGE_PREMIUM
+        return ServiceChargeStrategy.BASE_SERVICE_CHARGE
+    
+
+

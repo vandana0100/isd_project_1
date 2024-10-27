@@ -8,14 +8,18 @@ Date: 06-10-2024
 
 # 1.  Import all BankAccount types using the bank_account package
 #     Import date from datetime
-from bank_account.bank_account import ChequingAccount, InvestmentAccount, SavingsAccount
 from datetime import date
+
+# Import the specific account classes from their respective modules
+from bank_account.chequing_account import ChequingAccount
+from bank_account.investment_account import InvestmentAccount
+from bank_account.savings_account import SavingsAccount
 
 
 # 2. Create an instance of a ChequingAccount with values of your 
 # choice including a balance which is below the overdraft limit.
 try:
-    chequing_account = ChequingAccount(account_number=567345, client_number=789, balance=-200, overdraft_limit=-500)
+    chequing_account = ChequingAccount(account_number=567345, client_number=789, balance=-200, overdraft_limit=-500, date_created=date.today(), overdraft_rate=0.05)  
 except Exception as e:
     print(f"Error creating ChequingAccount: {e}")
 
@@ -60,7 +64,7 @@ print("===================================================")
 # 5. Create an instance of a SavingsAccount with values of your 
 # choice including a balance which is above the minimum balance.
 try:
-    savings_account = SavingsAccount(account_number=654321, client_number=456, balance=2000, minimum_balance=1000)
+    savings_account = SavingsAccount(account_number=654321, client_number=456, balance=2000, minimum_balance=1000,  date_created=date.today())
 except Exception as e:
     print(f"Error creating SavingsAccount: {e}")
 

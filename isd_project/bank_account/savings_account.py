@@ -5,9 +5,11 @@ Author: Vandana Bhangu
 """
 from bank_account.bank_account import BankAccount
 from datetime import date
+from patterns.strategy.minimum_balance_strategy import MinimumBalanceStrategy
 
 class SavingsAccount(BankAccount):
     SERVICE_CHARGE_PREMIUM: float = 2.0
+    BASE_SERVICE_CHARGE: float = 5.0
     
     def __init__(self, account_number: int, client_number: int, balance: float, date_created: date, minimum_balance: float):
         # Call the superclass constructor
@@ -15,6 +17,10 @@ class SavingsAccount(BankAccount):
         self._account_number = account_number
         self._balance = balance 
         self._minimum_balance = minimum_balance
+        self._minimum_balance_strategy = MinimumBalanceStrategy(self._minimum_balance)
+
+        # Initialize the MinimumBalanceStrategy with the minimum_balance only
+        self._minimum_balance_strategy = MinimumBalanceStrategy(self._minimum_balance)
         
         # Validate the minimum_balance and assign it
         try:
@@ -36,10 +42,14 @@ class SavingsAccount(BankAccount):
                 f"Minimum Balance: {self._minimum_balance:.2f} Account Type: Savings")
     
     def get_service_charges(self) -> float:
-        # Calculate service charges based on the current balance
-        if self.balance >= self._minimum_balance:
-            service_charge = self.BASE_SERVICE_CHARGE  # Assuming BASE_SERVICE_CHARGE is defined in BankAccount
-        else:
-            service_charge = self.BASE_SERVICE_CHARGE * self.SERVICE_CHARGE_PREMIUM
-        return service_charge
+        """
+        Calculates service charges based on the current balance using the MinimumBalanceStrategy.
+
+        Returns:
+            float: The calculated service charges.
+        """
+        if self.balance < self._minimum_balance:
+            return self.BASE_SERVICE_CHARGE * self.SERVICE_CHARGE_PREMIUM
+        return self.BASE_SERVICE_CHARGE
+
     

@@ -6,7 +6,7 @@ Author: Vandana Bhangu
 from datetime import date
 import datetime
 from bank_account.bank_account import BankAccount
-
+from patterns.strategy.overdraft_strategy import OverdraftStrategy
 
 class ChequingAccount(BankAccount):
     """
@@ -34,6 +34,9 @@ class ChequingAccount(BankAccount):
         if not isinstance(date_created, datetime.date):
             raise TypeError("Date created must be a valid date object")
         self._date_created = date_created
+        # Initialize the overdraft strategy
+        self._overdraft_strategy = OverdraftStrategy(overdraft_limit=self.__overdraft_limit, 
+                                             overdraft_rate=self.__overdraft_rate) 
         
         # Validate overdraft limit and overdraft rate
         try:
@@ -44,7 +47,7 @@ class ChequingAccount(BankAccount):
         try:
             self.__overdraft_rate = float(overdraft_rate)
         except ValueError:
-            self.__overdraft_rate = 0.03  
+            self.__overdraft_rate = 0.03 
 
     # String representation of the ChequingAccount
     def __str__(self):
@@ -63,13 +66,6 @@ class ChequingAccount(BankAccount):
     def get_service_charges(self) -> float:
         """
         Calculates and returns the service charges for the ChequingAccount.
-        If the balance is greater than or equal to the overdraft limit, the service charge is the base service charge.
-        If the balance is below the overdraft limit, the service charge is calculated as:
-        BASE_SERVICE_CHARGE + (overdraft_limit - balance) * overdraft_rate.
+        The service charge is calculated using the _overdraft_strategy.
         """
-        if self.balance >= self.__overdraft_limit:
-            return BankAccount.BASE_SERVICE_CHARGE
-        else:
-            return (BankAccount.BASE_SERVICE_CHARGE +
-                    (self.__overdraft_limit - self.balance) * self.__overdraft_rate)
-
+        return self._overdraft_strategy.calculate_service_charges(self)

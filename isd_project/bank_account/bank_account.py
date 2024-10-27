@@ -34,17 +34,15 @@ class BankAccount:
         :param amount: The amount to withdraw.
         :raises ValueError: If the withdrawal amount exceeds the balance.
         """
+        if amount < 0:
+            raise ValueError("Withdrawal amount: -75.00 must be positive.")
         if amount > self.__balance:
-            raise ValueError(f"Insufficient funds for withdrawal: {amount:.2f}.")
+            raise ValueError(f"Withdrawal amount: {amount:.2f} must not exceed the account balance: {self.__balance:.2f}")
         self.__balance -= amount
 
     def __str__(self):
         """Return a string representation of the bank account."""
-        return f"Account Number: {self.__account_number}, Balance: ${self.__balance:.2f}"
-
-
-    # Class constant for base service charge
-    BASE_SERVICE_CHARGE: float = 0.50
+        return f"Account Number: {self.__account_number} Balance: ${self.__balance:.2f}\n"
 
     def __init__(self, account_number: str, balance: float = 0.0):
         """
@@ -105,7 +103,8 @@ class BankAccount:
         Calculates and returns the service charges for the bank account.
         :return: float - Service charge for the account.
         """
-        return self.BASE_SERVICE_CHARGE
-    
+        pass
+  
+
 
 

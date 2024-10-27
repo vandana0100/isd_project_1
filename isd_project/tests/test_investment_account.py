@@ -10,6 +10,7 @@ the following command:
 
 import unittest
 from datetime import date, timedelta
+from patterns.strategy.management_fee_strategy import ManagementFeeStrategy
 from bank_account.investment_account import InvestmentAccount
 
 class TestInvestmentAccount(unittest.TestCase):

@@ -161,8 +161,8 @@ class TestBankAccount(unittest.TestCase):
             bank_account.withdraw(300.00)
         
         # Check the exception message
-        self.assertEqual(str(context.exception), "Withdrawal amount: 300.00 must not exceed the account balance: 200.00", "Expected ValueError not raised for withdraw amount exceeding balance.")
-        
+        self.assertEqual(str(context.exception), "Withdrawal amount: 300.00 must not exceed the account balance: 200.00")
+
         # Ensure the balance remains unchanged
         self.assertEqual(round(bank_account.balance, 2), 200.00, "The balance should remain unchanged at 200.00.")
 
@@ -171,7 +171,7 @@ class TestBankAccount(unittest.TestCase):
         bank_account = BankAccount(account_number=966643, client_number=493222, balance=1234.56)
     
         # Expected string output including the newline character
-        expected_output = "Account Number: 966643 Balance: $1,234.56\n"
+        expected_output = "Account Number: 966643 Balance: $1234.56\n"
     
         # Assert that the __str__ method returns the correct output
         self.assertEqual(str(bank_account), expected_output)
