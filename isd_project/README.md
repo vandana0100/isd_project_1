@@ -26,8 +26,22 @@ SavingsAccount: Charges if the balance falls below a minimum.
 InvestmentAccount: Charges based on how long the account has been open.
 This allows the program to treat all accounts the same way while letting each account handle its specific rules for service charges.
 
-Assignment 3: Applying Design Patterns - Implemented Strategy and Observer patterns to improve scalability and notification features in the banking system.
 
-PART:1
-Strategy Pattern:
-The Strategy Pattern is employed in this application to encapsulate the algorithms used for calculating service charges for various bank account types. Each account type—ChequingAccount, SavingsAccount, and InvestmentAccount—has its own strategy for charge calculation. This design allows for flexibility and ease of maintenance, as new account types can be added with their own strategies without modifying existing code. The pattern enhances separation of concerns, enabling each strategy to handle its calculation logic independently, leading to cleaner and more manageable code.
+## Assignment 3: Applying Design Patterns - Implemented Strategy and Observer patterns to improve scalability and notification features in the banking system.
+
+### Overview
+This project is designed to simulate a banking system that manages multiple account types, including Chequing and Savings accounts, while employing design patterns to enhance its architecture. The primary focus of this implementation is on two key design patterns: the Strategy Pattern and the Observer Pattern.
+
+### Features
+- **Account Management**: Users can create and manage different types of bank accounts, including Chequing and Savings accounts, each with specific attributes and functionalities.
+- **Service Charge Calculation**: The application calculates service charges based on various strategies implemented for different account types using the Strategy Pattern.
+- **Observer Notifications**: Clients are notified of important account events such as low balance warnings or large transactions through the Observer Pattern, enhancing user experience and interaction.
+
+### PART:1
+#### Strategy Pattern:
+- The Strategy Pattern is employed in this application to encapsulate the algorithms used for calculating service charges for various bank account types. Each account type—ChequingAccount, SavingsAccount, and InvestmentAccount—has its own strategy for charge calculation. This design allows for flexibility and ease of maintenance, as new account types can be added with their own strategies without modifying existing code. The pattern enhances separation of concerns, enabling each strategy to handle its calculation logic independently, leading to cleaner and more manageable code.
+
+### PART:2
+#### 2. Observer Pattern:
+- The Observer Pattern is utilized to create a notification system where Clients act as observers to BankAccounts (subjects). When significant events occur (like balance changes or large transactions), the accounts notify the clients, providing real-time updates and enhancing user engagement. This design allows for flexible communication between objects, making it easier to extend functionality in the future.
+
