@@ -31,6 +31,7 @@ class ChequingAccount(BankAccount):
 
         self.__overdraft_limit = overdraft_limit
         self.__overdraft_rate = overdraft_rate
+        self.balance = balance
         if not isinstance(date_created, datetime.date):
             raise TypeError("Date created must be a valid date object")
         self._date_created = date_created
@@ -48,6 +49,19 @@ class ChequingAccount(BankAccount):
             self.__overdraft_rate = float(overdraft_rate)
         except ValueError:
             self.__overdraft_rate = 0.03 
+
+def withdraw(self, amount: float):
+    print(f"Attempting to withdraw ${amount:.2f} from Account Number: {self.account_number}")
+    print(f"Current balance: ${self.balance:.2f}")
+
+    # Check if withdrawal is valid against the available balance including overdraft
+    if amount > self.balance + self.__overdraft_limit:
+        raise ValueError(f"Withdrawal amount: ${amount:.2f} exceeds the available balance including overdraft limit.")
+    
+    # Deduct the amount
+    self.balance -= amount
+    print(f"New balance after withdrawal: ${self.balance:.2f}")
+    
 
     # String representation of the ChequingAccount
     def __str__(self):

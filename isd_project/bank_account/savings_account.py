@@ -36,6 +36,18 @@ class SavingsAccount(BankAccount):
     def balance(self, value):
         self._balance = value
 
+    def withdraw(self, amount: float):
+        print(f"Attempting to withdraw ${amount:.2f} from Account Number: {self.account_number}")
+        print(f"Current balance: ${self.balance:.2f}")
+
+        # Check if withdrawal is valid
+        if amount > self.balance:
+            raise ValueError(f"Withdrawal amount: ${amount:.2f} exceeds the account balance: ${self.balance:.2f}")
+        
+        # Deduct the amount
+        self.balance -= amount
+        print(f"New balance after withdrawal: ${self.balance:.2f}")
+
     def __str__(self) -> str:
         # Use the superclass __str__ method and add minimum balance and account type
         return (f"{super().__str__()}\n"

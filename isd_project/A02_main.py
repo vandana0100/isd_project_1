@@ -4,13 +4,12 @@ the BankAccount sub classes.
 Author: ACE Faculty
 Edited by: Vandana Bhangu
 Date: 06-10-2024
+Latest Update: 27-10-2024
 """
 
 # 1.  Import all BankAccount types using the bank_account package
 #     Import date from datetime
 from datetime import date
-
-# Import the specific account classes from their respective modules
 from bank_account.chequing_account import ChequingAccount
 from bank_account.investment_account import InvestmentAccount
 from bank_account.savings_account import SavingsAccount
