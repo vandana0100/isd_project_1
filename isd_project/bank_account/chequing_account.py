@@ -39,16 +39,14 @@ class ChequingAccount(BankAccount):
         self._overdraft_strategy = OverdraftStrategy(overdraft_limit=self.__overdraft_limit, 
                                              overdraft_rate=self.__overdraft_rate) 
         
-        # Validate overdraft limit and overdraft rate
-        try:
-            self.__overdraft_limit = float(overdraft_limit)
-        except ValueError:
-            self.__overdraft_limit = -200.0  
+    # Getter methods for overdraft_limit and overdraft_rate
+    @property
+    def overdraft_limit(self):
+        return self.__overdraft_limit
 
-        try:
-            self.__overdraft_rate = float(overdraft_rate)
-        except ValueError:
-            self.__overdraft_rate = 0.03 
+    @property
+    def overdraft_rate(self):
+        return self.__overdraft_rate
 
 def withdraw(self, amount: float):
     print(f"Attempting to withdraw ${amount:.2f} from Account Number: {self.account_number}")

@@ -22,11 +22,10 @@ class SavingsAccount(BankAccount):
         # Initialize the MinimumBalanceStrategy with the minimum_balance only
         self._minimum_balance_strategy = MinimumBalanceStrategy(self._minimum_balance)
         
-        # Validate the minimum_balance and assign it
-        try:
-            self._minimum_balance = float(minimum_balance)
-        except (ValueError, TypeError):
-            self._minimum_balance = 50.0  # Default minimum balance
+    @property
+    def minimum_balance(self):
+        """Getter for the minimum balance"""
+        return self._minimum_balance
 
     @property
     def balance(self):
