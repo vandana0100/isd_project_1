@@ -69,7 +69,7 @@ class AccountDetailsWindow(DetailsWindow):
 
                 # Emit the signal with the updated account
                 self.balance_updated.emit(self.account)
-                
+
             except Exception as e:
                 # Show error message if deposit fails
                 QMessageBox.critical(self, "Transaction Failed", f"{transaction_type} failed: {str(e)}")
@@ -103,3 +103,4 @@ class AccountDetailsWindow(DetailsWindow):
         Closes the AccountDetailsWindow and returns the user to the previous window.
         """
         self.close()
+        

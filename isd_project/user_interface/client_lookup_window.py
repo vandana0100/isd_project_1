@@ -82,6 +82,7 @@ class ClientLookupWindow(LookupWindow):
         """
         # Assuming account_number is in the first column (column 0)
         account_number = self.account_table.item(row, 0).text()
+    
 
         if not account_number:
             # If the account number is blank, show a message box to select a valid record
