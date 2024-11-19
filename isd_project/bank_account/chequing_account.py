@@ -27,9 +27,10 @@ class ChequingAccount(BankAccount):
             overdraft_rate (float): The rate at which overdraft fees are applied.
         """
         # Call the parent class initializer
-        super().__init__(account_number, client_number, balance, date_created)
+        super().__init__(account_number, client_number, balance)
 
         self.__overdraft_limit = overdraft_limit
+        self._date_created = date_created
         self.__overdraft_rate = overdraft_rate
         self.balance = balance
         if not isinstance(date_created, datetime.date):

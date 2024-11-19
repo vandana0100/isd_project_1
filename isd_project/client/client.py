@@ -5,6 +5,7 @@ Author: Vandana Bhangu
 """
 
 from email_validator import validate_email, EmailNotValidError
+import client
 from utility.file_utils import simulate_send_email
 from patterns.observer.observer import Observer 
 
@@ -14,6 +15,8 @@ class Client:
         if not isinstance(client_number, int):
             raise ValueError("Client number must be an integer.")
         self.__client_number = client_number
+
+        
 
         # Validate first_name
         first_name = first_name.strip()
@@ -54,10 +57,9 @@ class Client:
     @property
     def email_address(self) -> str:
         return self.__email_address
-
-
-    def __str__(self) -> str:
-        return f"{self.__last_name}, {self.__first_name} [{self.__client_number}] - {self.__email_address}\n"
+    
+    def __str__(self):
+        return f"Client {self.client_number}: {self.first_name} {self.last_name}, Email: {self.email_address}"
     
     def update(self, message: str) -> None:
         """

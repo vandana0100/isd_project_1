@@ -1,7 +1,8 @@
 import os
 import sys
-
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from bank_account.bank_account import BankAccount
+from bank_account import BankAccount
 # THIS LINE IS NEEDED SO THAT THE GIVEN TESTING 
 # CODE CAN RUN FROM THIS DIRECTORY.
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -12,7 +13,6 @@ from bank_account.chequing_account import ChequingAccount
 from bank_account.savings_account import SavingsAccount
 from bank_account.investment_account import InvestmentAccount
 from client.client import Client  # Import the Client class
-
 # *******************************************************************************
 # GIVEN LOGGING AND FILE ACCESS CODE
  
@@ -34,7 +34,6 @@ logging.basicConfig(filename=log_file_path, filemode='a',
  
 # Given File Path Code:
 # Designed to locate the input files without providing any directory structure
-
 # Construct the absolute path to the data directory at the root of the project
 data_dir = os.path.join(root_dir, 'data')
  
@@ -46,11 +45,8 @@ accounts_csv_path = os.path.join(data_dir, 'accounts.csv')
 # *******************************************************************************
 
 
-
-
-
-
-def load_data()->tuple[dict,dict]:
+    
+def load_data() -> tuple[dict, dict]:
     """
     Populates a client dictionary and an account dictionary with 
     corresponding data from files within the data directory.
@@ -60,23 +56,42 @@ def load_data()->tuple[dict,dict]:
     client_listing = {}
     accounts = {}
 
-    # READ CLIENT DATA 
-    with open(clients_csv_path, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            try:
-                client_number = int(row['client_number'])
-                first_name = row['first_name'].strip()
-                last_name = row['last_name'].strip()
-                email_address = row['email_address'].strip()
-                
-                # Create Client object and add to client_listing
-                client = Client(client_number, first_name, last_name, email_address)
-                client_listing[client_number] = client
-            except Exception as e:
-                logging.error(f"Unable to create client: {e}")
-        
+    print("Loading data...")
 
+    try:
+        # READ CLIENT DATA 
+        with open(clients_csv_path, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                try:
+                    # Convert string values to appropriate types and strip whitespace
+                    client_number = int(row['client_number'].strip())
+                    first_name = row['first_name'].strip()
+                    last_name = row['last_name'].strip()
+                    email_address = row['email_address'].strip()
+
+                    # Create new Client object
+                    client = Client(client_number, first_name, last_name, email_address)
+
+                    # Store in dictionary with client_number as key
+                    client_listing[client_number] = client
+                    print(f"Successfully loaded client: {client_number}")
+
+                except KeyError as e:
+                    print(f"Missing field in CSV: {e}")
+                    logging.error(f"Missing field in CSV: {e}")
+                except ValueError as e:
+                    print(f"Invalid data format: {e}")
+                    logging.error(f"Invalid data format: {e}")
+                except Exception as e:
+                    print(f"Error processing client row: {e}")
+                    logging.error(f"Unable to create client: {e}")
+
+    except Exception as e:
+        print(f"Error reading file: {e}")
+
+    print(f"Final client_listing: {client_listing}")
+    
     # READ ACCOUNT DATA
     with open(accounts_csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -101,18 +116,20 @@ def load_data()->tuple[dict,dict]:
                 else:
                     logging.error(f"Not a valid account type: {account_type}")
                     continue
-                
+
                 # Check if client exists
                 if client_number in client_listing:
                     accounts[account_number] = account
                 else:
                     logging.error(f"Bank Account: {account_number} contains invalid Client Number: {client_number}")
+
             except Exception as e:
-                logging.error(f"Unable to create bank account: {e}")  
+                logging.error(f"Unable to create bank account: {e}") 
+
+    logging.info(f"Loaded {len(accounts)} accounts.")
 
     # RETURN STATEMENT
     return client_listing, accounts
-    
 
 
 def update_data(updated_account: BankAccount) -> None:
@@ -127,7 +144,7 @@ def update_data(updated_account: BankAccount) -> None:
     with open(accounts_csv_path, mode='r', newline='') as file:
         reader = csv.DictReader(file)
         fields = reader.fieldnames
-        
+
         for row in reader:
             account_number = int(row['account_number'])
             # Check if the account number is in the dictionary
@@ -142,6 +159,48 @@ def update_data(updated_account: BankAccount) -> None:
         writer.writeheader()
         writer.writerows(updated_rows)
 
+
+# Function to load clients from clients.csv
+def load_clients(client_file):
+    clients = {}
+    with open(client_file, mode='r', newline='') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            client_number = row['client_number']
+            # Creating a client dictionary for each client
+            clients[client_number] = {
+                'first_name': row['first_name'],
+                'last_name': row['last_name'],
+                'email_address': row['email_address'],
+                'accounts': []  # This will hold the accounts for each client
+            }
+    return clients
+
+
+# Function to load accounts from accounts.csv
+def load_accounts(account_file, clients):
+    with open(account_file, mode='r', newline='') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            client_number = row['client_number']
+            account = {
+                'account_number': row['account_number'],
+                'balance': float(row['balance']),
+                'date_created': row['date_created'],
+                'account_type': row['account_type'],
+                'overdraft_limit': row['overdraft_limit'],
+                'overdraft_rate': row['overdraft_rate'],
+                'minimum_balance': row['minimum_balance'],
+                'management_fee': row['management_fee']
+            }
+            # Add the account to the corresponding client's list of accounts
+            if client_number in clients:
+                clients[client_number]['accounts'].append(account)
+
+
+# Paths to your CSV files
+client_file = 'clients.csv'
+account_file = 'accounts.csv'
 
 # GIVEN TESTING SECTION:
 if __name__ == "__main__":
@@ -160,6 +219,9 @@ if __name__ == "__main__":
             if account.client_number == client.client_number:
                 print(f"Account Number: {account.account_number} Balance: ${account.balance:,.2f}")
                 
+                # Print the formatted 'date_created'
+                print(f"Date Created: {account.date_created.strftime('%Y-%m-%d')}")  # Format the date
+
                 # Print account-specific details depending on the type
                 if isinstance(account, ChequingAccount):
                     print(f"Overdraft Limit: ${account.overdraft_limit:,.2f} Overdraft Rate: {account.overdraft_rate}% Account Type: Chequing")
@@ -167,7 +229,8 @@ if __name__ == "__main__":
                     print(f"Minimum Balance: ${account.minimum_balance:,.2f} Account Type: Savings")
                 elif isinstance(account, InvestmentAccount):
                     print(f"Management Fee: ${account.management_fee:,.2f} Account Type: Investment")
-        
+
         # Separator after each client
         print("=" * 41)
 
+   
