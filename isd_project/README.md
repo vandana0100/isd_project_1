@@ -45,3 +45,30 @@ This project is designed to simulate a banking system that manages multiple acco
 #### 2. Observer Pattern:
 - The Observer Pattern is utilized to create a notification system where Clients act as observers to BankAccounts (subjects). When significant events occur (like balance changes or large transactions), the accounts notify the clients, providing real-time updates and enhancing user engagement. This design allows for flexible communication between objects, making it easier to extend functionality in the future.
 
+## Event-Driven Programming Paradigm
+
+### Overview
+
+In Assignment 4, the application implements the Event-Driven Programming Paradigm (EDP) to manage user interactions and account transactions. The EDP model is fundamental for creating responsive and interactive applications where the flow of execution is determined by events such as user actions, system messages, or other external factors.
+
+### Key Elements
+
+1. **Signals and Slots**:  
+   PySide6’s signal and slot mechanism is used to trigger actions in response to events. In our project, the AccountDetailsWindow emits signals when account transactions (deposit or withdraw) are completed, and these signals are received by the ClientLookupWindow to update the displayed account balance.
+
+2. **Event Handling**:  
+   The primary event handlers are connected to widgets, such as buttons, and are responsible for managing user interactions. For example, when a user deposits or withdraws an amount, an event is triggered, updating the balance and ensuring that the GUI is kept in sync with the underlying data.
+
+3. **Signal Emission**:  
+   After a successful transaction in the AccountDetailsWindow, a signal is emitted containing the updated BankAccount. This signal notifies other parts of the program (like the ClientLookupWindow) that the data has been changed, allowing the application to update the GUI accordingly.
+
+4. **Signal Reception**:  
+   The ClientLookupWindow class listens for the emitted signal and updates the balance in the table for the corresponding account. This ensures that any change made in one window (like a successful transaction) is immediately reflected in the other windows without needing to refresh or manually update the data.
+
+### Benefits of EDP in the Application
+
+- Responsiveness: The application reacts instantly to user actions, ensuring an interactive experience.
+- Modularity: Each component of the application (e.g., AccountDetailsWindow, ClientLookupWindow) handles its own specific functionality but communicates through signals, promoting a loosely coupled architecture.
+- Real-time Updates: Account balances are updated in real-time across different windows when a transaction is processed.
+
+This event-driven approach helps maintain a fluid user interface and is efficient in handling asynchronous tasks such as transactions and data updates.
