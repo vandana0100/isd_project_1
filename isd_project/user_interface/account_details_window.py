@@ -66,8 +66,10 @@ class AccountDetailsWindow(DetailsWindow):
                 self.balance_label.setText(f"${self.account.balance:.2f}")
                 self.transaction_amount_edit.clear()
                 self.transaction_amount_edit.setFocus()
+
                 # Emit the signal with the updated account
                 self.balance_updated.emit(self.account)
+                
             except Exception as e:
                 # Show error message if deposit fails
                 QMessageBox.critical(self, "Transaction Failed", f"{transaction_type} failed: {str(e)}")
@@ -94,7 +96,7 @@ class AccountDetailsWindow(DetailsWindow):
     def exec_(self):
         # Display the window as a dialog
         print(f"Account Details for: {self.account.account_number}")
-        # You can add logic to show the details in the UI
+    
 
     def on_exit(self):
         """
