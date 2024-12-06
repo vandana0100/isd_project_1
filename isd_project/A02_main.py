@@ -13,7 +13,7 @@ from datetime import date
 from bank_account.chequing_account import ChequingAccount
 from bank_account.investment_account import InvestmentAccount
 from bank_account.savings_account import SavingsAccount
-
+from bank_account.chequing_account import ChequingAccount
 
 # 2. Create an instance of a ChequingAccount with values of your 
 # choice including a balance which is below the overdraft limit.
