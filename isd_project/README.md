@@ -72,3 +72,21 @@ In Assignment 4, the application implements the Event-Driven Programming Paradig
 - Real-time Updates: Account balances are updated in real-time across different windows when a transaction is processed.
 
 This event-driven approach helps maintain a fluid user interface and is efficient in handling asynchronous tasks such as transactions and data updates.
+
+## Assignment 5: Algorithms, Help Files and Distribution
+
+### Overview
+In Assignment 5, the project will focus on adding a filtering algorithm to manage bank account listings, generating documentation from code docstrings, and creating a distributable installer for the application.
+
+### Key Features
+- **Filtering Algorithm**: Allows users to filter bank account listings based on criteria like account type or balance.
+- **Documentation**: Uses Sphinx to generate HTML-style documentation from code docstrings, making it easier for future developers to understand the application.
+- **Installer Creation**: Uses Inno Setup to package the application into a standalone installer, simplifying distribution and installation.
+
+### Benefits
+- **Improved Usability**: The filtering algorithm enhances the user experience by providing an easy way to organize accounts.
+- **Comprehensive Documentation**: Auto-generated documentation helps developers and users understand the application.
+- **Simplified Distribution**: The installer streamlines the process of deploying the application to end users.
+
+### Conclusion
+Assignment 5 completes the project by adding filtering functionality, automated documentation, and packaging the application for easy distribution.
