@@ -28,6 +28,10 @@ class ClientLookupWindow(LookupWindow):
         # Connect signals to slots
         self.lookup_button.clicked.connect(self.on_lookup_client)
         self.account_table.cellClicked.connect(self.__on_select_account)
+        self.filter_button.clicked.connect(self.on_apply_filter)  # Connect filter button to the apply filter method
+
+        # Add a variable to track the applied filter state
+        self.filter_applied = False
 
     @Slot()
     def on_lookup_client(self):
@@ -48,7 +52,10 @@ class ClientLookupWindow(LookupWindow):
             print(f"Client number {client_number} not found in client_listing.")  # Debug print
             QMessageBox.warning(self, "Client Not Found", f"Client with number {client_number} not found.")
             self.reset_display()  # Clear previous data
-            return  # Exit the method early to prevent further processing
+            return 
+        else:
+            # Invoke the toggle_filter method to indicate that the data is not currently filtered
+            self.toggle_filter(False)
             
         # Display client information
         client = self.client_listing[client_number]
@@ -122,3 +129,113 @@ class ClientLookupWindow(LookupWindow):
         """
         self.client_info_label.clear()
         self.account_table.setRowCount(0)
+        self.filter_edit.clear()
+
+    def toggle_filter(self, filter_on: bool) -> None:
+        """
+        This method toggles the display of the filter widgets to indicate to the user 
+        whether or not filtering is currently taking place.
+        
+        Arguments:
+        - filter_on: Boolean indicating if filtering is on or not.
+        """
+        if filter_on:
+            self.filter_button.setText("Reset")
+            self.filter_combo_box.setEnabled(False)
+            self.filter_edit.setEnabled(False)
+            self.filter_label.setText("Data is Currently Filtered")
+        else:
+            self.filter_button.setText("Apply Filter")
+            self.filter_combo_box.setEnabled(True)
+            self.filter_edit.setEnabled(True)
+            self.filter_edit.clear()
+            self.filter_combo_box.setCurrentIndex(0)
+            self.filter_label.setText("Data is Not Currently Filtered")
+            # Display all rows in the table
+            for row in range(self.account_table.rowCount()):
+                self.account_table.setRowHidden(row, False)
+
+    @Slot()
+    def on_apply_filter(self):
+        """
+        This method applies the filter to the accounts table based on the selected account type 
+        and filter criteria (e.g., balance or account number).
+        """
+        filter_value = self.filter_edit.text().strip()
+        filter_type = self.filter_combo_box.currentText().strip()
+
+        if not filter_value:
+            QMessageBox.warning(self, "Invalid Filter", "Please enter a valid filter value.")
+            return  # Exit early if the filter value is invalid
+
+        if filter_type == "Account Type":
+            self.apply_account_type_filter(filter_value)
+        elif filter_type == "Balance":
+            self.apply_balance_filter(filter_value)
+        else:
+            QMessageBox.warning(self, "Invalid Filter Type", "Please select a valid filter type.")
+            return
+        
+        # Toggle the filter status
+        self.filter_applied = True
+        self.toggle_filter(True)
+
+    def apply_account_type_filter(self, account_type: str):
+        """
+        Apply a filter on account type (e.g., Savings, Checking).
+        """
+        filter_found = False
+        for row in range(self.account_table.rowCount()):
+            account_number = self.account_table.item(row, 0).text()
+            account = self.accounts.get(account_number)
+
+            if account and account.__class__.__name__ != account_type:
+                self.account_table.setRowHidden(row, True)  # Hide rows that don't match the filter
+            else:
+                self.account_table.setRowHidden(row, False)  # Show rows that match the filter
+                filter_found = True  # At least one match was found
+
+        # If no matches are found, show a message box
+        if not filter_found:
+            QMessageBox.warning(self, "No Matches Found", f"No accounts of type {account_type} found.")
+
+    def apply_balance_filter(self, balance_threshold: str):
+        """
+        Apply a filter based on the account balance.
+        """
+        try:
+            balance_threshold = float(balance_threshold)
+            filter_found = False
+            for row in range(self.account_table.rowCount()):
+                account_number = self.account_table.item(row, 0).text()
+                account = self.accounts.get(account_number)
+
+                if account and account.balance < balance_threshold:
+                    self.account_table.setRowHidden(row, True)  # Hide rows that don't match the filter
+                else:
+                    self.account_table.setRowHidden(row, False)  # Show rows that match the filter
+                    filter_found = True  # At least one match was found
+
+            # If no matches are found, show a message box
+            if not filter_found:
+                QMessageBox.warning(self, "No Matches Found", f"No accounts with balance above {balance_threshold} found.")
+        except ValueError:
+            QMessageBox.warning(self, "Invalid Balance", "Please enter a valid numeric balance value.")
+
+    @Slot()
+    def on_reset_filter(self):
+        """
+        This method resets the applied filter, clears the filter field, 
+        and makes all rows visible again.
+        """
+        # Reset filter fields
+        self.filter_edit.clear()
+        self.filter_combo_box.setCurrentIndex(0)
+        
+        # Show all rows again
+        for row in range(self.account_table.rowCount()):
+            self.account_table.setRowHidden(row, False)
+
+        # Toggle the filter status
+        self.filter_applied = False
+        self.toggle_filter(False)
